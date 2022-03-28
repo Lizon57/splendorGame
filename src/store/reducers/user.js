@@ -6,7 +6,7 @@ const initialState = {
 export function user(state = initialState, action) {
     switch (action.type) {
         case 'SET_USER':
-            return { ...state, game: action.payload }
+            return { ...state, user: action.payload }
 
         default: return state
     }

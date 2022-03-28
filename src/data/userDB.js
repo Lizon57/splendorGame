@@ -1,6 +1,6 @@
 export const userDB = [
     {
-        userId: 'userI0001',
+        _id: 'userI0001',
 
         avatarUrl: 'https://robohash.org/Abra Kadabra?set=set2',
         name: {
@@ -12,13 +12,13 @@ export const userDB = [
         point: 100
     },
     {
-        userId: 'userI0002',
+        _id: 'userI0002',
 
         avatarUrl: 'https://robohash.org/Hokus Pokus?set=set2',
         name: {
             first: 'Klara',
             last: 'Mizrahi',
-            display: 'Abra Kadabra'
+            display: 'Hokus Pokus'
         },
 
         point: 120

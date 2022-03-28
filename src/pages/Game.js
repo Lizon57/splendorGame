@@ -4,6 +4,8 @@ import { useParams } from 'react-router'
 
 import { gameService } from '../services/gameService'
 
+import { UserLog } from '../cmps/dev-logics/user/UserLog'
+
 
 export const Game = () => {
     // CMP data
@@ -38,8 +40,12 @@ export const Game = () => {
 
     // CMP render
     return (
-        <div>
-            Hello world!
-        </div>
+        <>
+            <UserLog />
+
+            <div>
+                Hello world!
+            </div>
+        </>
     )
 }

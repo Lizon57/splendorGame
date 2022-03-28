@@ -6,6 +6,7 @@ import { gameService } from '../services/gameService'
 
 import { UserLog } from '../cmps/dev-logics/user/UserLog'
 import { CoinLst as StackCoinLst } from '../cmps/game/coins/stack/CoinLst'
+import { CardLst } from '../cmps/game/cards/CardLst'
 import { CoinLst as PlayerCoinLst } from '../cmps/game/coins/player/CoinLst'
 
 
@@ -48,6 +49,9 @@ export const Game = () => {
 
             <b>Coin stack</b>:
             <StackCoinLst />
+
+            <b>Card stack</b>:
+            <CardLst />
 
             <b>User coins</b>:
             <PlayerCoinLst />

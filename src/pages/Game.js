@@ -1,5 +1,5 @@
 export const Game = () => {
-    return(
+    return (
         <div>
             Hello world!
         </div>

@@ -1,6 +1,4 @@
 export const CardPreview = ({ card }) => {
-    console.log(card)
-
     return (
         <div>
             <div>Point: {card.point}</div>

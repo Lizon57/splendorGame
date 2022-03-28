@@ -1,7 +1,7 @@
 import { dummyGamesDB } from '../data/dummyGamesDB'
 
 async function getById(id) {
-    const game = dummyGamesDB.filter(game => game._id === id)
+    const [game] = dummyGamesDB.filter(game => game._id === id)
 
     // For debugging: 
     // Resolve after delay

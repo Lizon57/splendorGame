@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 
 import { gameService } from '../services/gameService'
@@ -9,6 +10,7 @@ export const Game = () => {
     const [loadingState, setLoadingState] = useState({ isLoading: true, err: '' })
 
     const { id } = useParams()
+    const dispatch = useDispatch()
 
 
     // CMP functions
@@ -17,7 +19,8 @@ export const Game = () => {
         if (!loadingState.isLoading) return
 
         try {
-            await gameService.getById(id)
+            const game = await gameService.getById(id)
+            dispatch({ type: 'SET_GAME', payload: game })
             setLoadingState({ isLoading: false, err: '' })
         } catch (err) {
             setLoadingState({ isLoading: false, err })

@@ -14,7 +14,8 @@ export const Game = () => {
 
 
     // CMP functions
-    // Load game by id (from query params) 
+    // Load game by id and set to store (from query params)
+    // Clear game from store when cmp unmount
     const getGame = async () => {
         if (!loadingState.isLoading) return
 
@@ -27,7 +28,7 @@ export const Game = () => {
         }
     }
     useEffect(getGame, [])
-
+    useEffect(() => () => dispatch({ type: 'SET_GAME', payload: {} }), [])
 
 
     // CMP loading / error render

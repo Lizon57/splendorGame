@@ -5,6 +5,8 @@ import { useParams } from 'react-router'
 import { gameService } from '../services/gameService'
 
 import { UserLog } from '../cmps/dev-logics/user/UserLog'
+import { CoinLst as StackCoinLst } from '../cmps/game/coins/stack/CoinLst'
+import { CoinLst as PlayerCoinLst } from '../cmps/game/coins/player/CoinLst'
 
 
 export const Game = () => {
@@ -41,11 +43,14 @@ export const Game = () => {
     // CMP render
     return (
         <>
+            <b>User</b>:
             <UserLog />
 
-            <div>
-                Hello world!
-            </div>
+            <b>Coin stack</b>:
+            <StackCoinLst />
+
+            <b>User coins</b>:
+            <PlayerCoinLst />
         </>
     )
 }

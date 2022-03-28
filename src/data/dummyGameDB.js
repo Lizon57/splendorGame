@@ -24,6 +24,8 @@ export const dummyGameDB = [
                 },
 
                 isActive: true,
+
+                coin: { gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 }
             },
 
             {
@@ -34,6 +36,8 @@ export const dummyGameDB = [
                 },
 
                 isActive: true,
+
+                coin: { gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 }
             },
         ]
     }

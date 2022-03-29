@@ -1,4 +1,4 @@
-import { utilService } from "../../services/utilService";
+import { utilService } from '../../services/utilService'
 
 export const firstLevelDevCards = [
     {

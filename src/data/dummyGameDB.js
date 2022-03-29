@@ -12,7 +12,7 @@ export const dummyGameDB = [
 
         turn: {
             playerIdx: 0,
-            phase: 0,
+            phase: 1,
         },
 
 
@@ -23,7 +23,7 @@ export const dummyGameDB = [
 
         card: {
             firstLevel: {
-                cardsStack: firstLevelDevCards.slice(3),
+                cardsStack: firstLevelDevCards.slice(4),
                 shownCards: [
                     {
                         id: utilService.makeId(),
@@ -52,7 +52,7 @@ export const dummyGameDB = [
                 ]
             },
             secondLevel: {
-                cardsStack: secondLevelDevCards.slice(3),
+                cardsStack: secondLevelDevCards.slice(4),
                 shownCards: [
                     {
                         id: utilService.makeId(),
@@ -81,7 +81,7 @@ export const dummyGameDB = [
                 ]
             },
             thirdLevel: {
-                cardsStack: thirdLevelDevCards.slice(3),
+                cardsStack: thirdLevelDevCards.slice(4),
                 shownCards: [
                     {
                         id: utilService.makeId(),
@@ -122,7 +122,11 @@ export const dummyGameDB = [
 
                 isActive: true,
 
-                coin: { gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 }
+                coin: {
+                    fluid: { gem: { emerald: 0, sapphire: 3, ruby: 1, diamond: 2, onyx: 0 }, gold: 2 },
+                    fixed: { emerald: 1, sapphire: 1, ruby: 1, diamond: 0, onyx: 2 },
+                },
+                ownCards: []
             },
 
             {
@@ -134,7 +138,11 @@ export const dummyGameDB = [
 
                 isActive: true,
 
-                coin: { gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 }
+                coin: {
+                    fluidCoin: { gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 },
+                    fixedCoin: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 },
+                },
+                ownCards: []
             },
         ]
     }

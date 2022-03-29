@@ -18,10 +18,17 @@ export const CoinLst = () => {
 
     // CMP render
     return (
-        <div style={{ display: 'flex', gap: '1rem' }}>
-            {sortedGems.map(gem => <CoinPreview key={gem} coin={gem} amount={coin.gem[gem]} />)}
+        <>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+                {sortedGems.map(gem => <CoinPreview key={gem} coin={gem} amount={coin.fluid.gem[gem]} />)}
 
-            <CoinPreview coin={'gold'} amount={coin.gold} />
-        </div>
+                <CoinPreview coin={'gold'} amount={coin.fluid.gold} />
+
+            </div>
+
+            <div style={{ display: 'flex', gap: '1rem' }}>
+                {sortedGems.map(gem => <CoinPreview key={gem} coin={gem} amount={coin.fixed[gem]} />)}
+            </div>
+        </>
     )
 }

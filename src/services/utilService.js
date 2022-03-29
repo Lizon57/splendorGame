@@ -19,10 +19,11 @@ function getRandomInt(min, max) {
 
 
 function concatTwoNumObj(obj1, obj2) {
-    const concatedObj = { ...obj1 }
-    Object.keys(obj2).forEach(key => {
-        concatedObj[key] = concatedObj[key] ? (concatedObj[key] + obj2[key]) : obj2[key]
+    const concatedObj = JSON.parse(JSON.stringify(obj1))
+    Object.keys(concatedObj).forEach(key => {
+        concatedObj[key] = concatedObj[key] ? concatedObj[key] + obj2[key] : obj2[key]
     })
+
     return concatedObj
 }
 

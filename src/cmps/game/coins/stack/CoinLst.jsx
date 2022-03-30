@@ -15,6 +15,9 @@ export const CoinLst = () => {
     const [stack, setStack] = useState(game.coinStack)
     const [pickedCoin, setPickedCoin] = useState({ gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 })
 
+    const totalPickedGemAmount = Object.values(pickedCoin.gem).reduce((acc, curr) => acc + curr)
+    const totalStackGemAmount = Object.values(stack.gem).reduce((acc, curr) => acc + curr)
+
 
     // CMP functions
     // Update stack and pick state
@@ -32,8 +35,6 @@ export const CoinLst = () => {
         }
     }
 
-
-    const totalPickedGemAmount = Object.values(pickedCoin.gem).reduce((acc, curr) => acc + curr)
     // Check if player can pick or return coin
     const isAblePicking = coin => {
         if (coin === 'gold') {
@@ -84,10 +85,30 @@ export const CoinLst = () => {
 
     // Check if player can invoke his pick
     const isAbleInvokePick = () => {
+        // Allow player invoke pick coin if:
+        // - Player pick gold
+        // - No coin on stack
+        // - Player pick 3 different gems
+        // - Player pick twice same gem
+
         if ((pickedCoin.gold) ||
+            (!totalStackGemAmount && !stack.gold) ||
             (totalPickedGemAmount === 3) ||
             Object.values(pickedCoin.gem).some(value => value === 2))
             return true
+
+        // Also allow player invoke pick if:
+        // - Player can take only 2 different gems (and took them)
+        // - Player can only take 1 gem (and took it)
+        // - Player have no coin to take
+        const unPickAbleGemAmount = Object.values(stack.gem).reduce((acc, curr) => {
+            if (!curr) acc++
+            return acc
+        }, 0)
+        if ((unPickAbleGemAmount === 3 && totalPickedGemAmount === 2) ||
+            (unPickAbleGemAmount === 4 && totalPickedGemAmount === 1))
+            return true
+
         return false
     }
 
@@ -96,6 +117,11 @@ export const CoinLst = () => {
         dispatch(coinPick(game.players[game.turn.playerIdx], game.turn.playerIdx, pickedCoin))
         // dispatch({ type: 'SET_COIN_PICK', payload: { stack, pickedCoin } })
         setPickedCoin({ gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 })
+    }
+
+
+    const onSkipPickCoin = () => {
+        dispatch({ type: 'SKIP_TAKE_COIN' })
     }
 
 
@@ -123,6 +149,8 @@ export const CoinLst = () => {
             />
 
             {isAbleInvokePick() && <button onClick={onInvokePick}>Pick coins</button>}
+
+            {(game.turn.phase === 0) && <button onClick={onSkipPickCoin}>Skip pick coin</button>}
         </div>
     )
 }

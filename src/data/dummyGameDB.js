@@ -13,7 +13,7 @@ export const dummyGameDB = [
 
         turn: {
             playerIdx: 0,
-            phase: 1,
+            phase: 0,
         },
 
 

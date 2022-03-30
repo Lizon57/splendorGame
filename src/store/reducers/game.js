@@ -35,6 +35,10 @@ export function game(state = initialState, action) {
             newGame.nobles = action.nobles
             return { ...state, game: newGame }
 
+        case 'SKIP_TAKE_COIN':
+            newGame.turn.phase = 1
+            return { ...state, game: newGame }
+
 
         default: return state
     }

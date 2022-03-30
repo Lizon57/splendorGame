@@ -115,14 +115,11 @@ export const CoinLst = () => {
     // On invoke pick
     const onInvokePick = () => {
         dispatch(coinPick(game.players[game.turn.playerIdx], game.turn.playerIdx, pickedCoin))
-        // dispatch({ type: 'SET_COIN_PICK', payload: { stack, pickedCoin } })
         setPickedCoin({ gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 })
     }
 
 
-    const onSkipPickCoin = () => {
-        dispatch({ type: 'SKIP_TAKE_COIN' })
-    }
+    const onSkipPickCoin = () => dispatch({ type: 'SET_TURN_PHASE', phase: 2 })
 
 
 

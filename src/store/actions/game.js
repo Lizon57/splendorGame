@@ -49,6 +49,7 @@ export const coinPick = (player, currPlayerIdx, coinPick) => {
         if (coinPick.gold) {
             player.coin.fluid.gold++
             player.coin.total.gold++
+            dispatch(setTurnPhase(3))
         } else {
             Object.keys(coinPick.gem).forEach(gem => {
                 if (!coinPick.gem[gem]) return
@@ -56,6 +57,7 @@ export const coinPick = (player, currPlayerIdx, coinPick) => {
                 player.coin.fluid.gem[gem] += coinPick.gem[gem]
                 player.coin.total.gem[gem] += coinPick.gem[gem]
             })
+            dispatch(setTurnPhase(1))
         }
 
         dispatch(updatePlayer(player, currPlayerIdx))
@@ -73,3 +75,6 @@ export const gainNoble = (noble, player, noblesStack) => {
         dispatch({ type: 'SET_NOBLES', nobles: noblesStack })
     }
 }
+
+
+export const setTurnPhase = (phase) => dispatch => dispatch({ type: 'SET_TURN_PHASE', phase })

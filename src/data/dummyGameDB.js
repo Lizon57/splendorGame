@@ -18,8 +18,9 @@ export const dummyGameDB = [
 
         coinStack: {
             gem: { emerald: 4, sapphire: 4, ruby: 4, diamond: 4, onyx: 4 },
-            gold: 5,
+            gold: 2,
         },
+
 
         card: {
             firstLevel: {
@@ -125,7 +126,8 @@ export const dummyGameDB = [
 
                 coin: {
                     fluid: { gem: { emerald: 0, sapphire: 3, ruby: 1, diamond: 2, onyx: 0 }, gold: 2 },
-                    fixed: { emerald: 1, sapphire: 1, ruby: 1, diamond: 0, onyx: 2 },
+                    fixed: { emerald: 0, sapphire: 1, ruby: 1, diamond: 0, onyx: 2 },
+                    total: { gem: { emerald: 0, sapphire: 4, ruby: 2, diamond: 2, onyx: 2 }, gold: 2 }
                 },
                 ownCards: []
             },
@@ -143,9 +145,10 @@ export const dummyGameDB = [
                 coin: {
                     fluid: { gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 },
                     fixed: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 },
+                    total: { gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 }
                 },
                 ownCards: []
-            },
+            }
         ]
     }
 ]

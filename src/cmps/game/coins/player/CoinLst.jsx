@@ -1,5 +1,7 @@
 import { useSelector } from 'react-redux'
+
 import { CoinPreview } from './CoinPreview'
+
 
 export const CoinLst = () => {
     // CMP data
@@ -9,17 +11,17 @@ export const CoinLst = () => {
 
 
     // Conditional render - if player not logged in or not found on game data - return
-    const playerData = players.filter(player => player.miniUser.userId === user._id)[0]
-    if (!playerData) return <></>
+    const currPlayerIdx = players.findIndex(player => player.miniUser.userId === user._id)
+    if (currPlayerIdx === -1) return <></>
 
 
-    const { coin } = playerData
-
+    const { coin } = players[currPlayerIdx]
 
     // CMP render
     return (
         <>
             <div style={{ display: 'flex', gap: '1rem' }}>
+                <span>Fluid:</span>
                 {sortedGems.map(gem => <CoinPreview key={gem} coin={gem} amount={coin.fluid.gem[gem]} />)}
 
                 <CoinPreview coin={'gold'} amount={coin.fluid.gold} />
@@ -27,6 +29,7 @@ export const CoinLst = () => {
             </div>
 
             <div style={{ display: 'flex', gap: '1rem' }}>
+                <span>Fixed:</span>
                 {sortedGems.map(gem => <CoinPreview key={gem} coin={gem} amount={coin.fixed[gem]} />)}
             </div>
         </>

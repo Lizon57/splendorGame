@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { loginUserById } from '../../../store/actions/user'
 
 import { userDB } from '../../../data/userDB'
-import { userService } from '../../../services/userService'
 
 
 export const UserLog = () => {
@@ -11,24 +11,28 @@ export const UserLog = () => {
 
 
     // CMP functions
-    const onLogUser = async id => {
+    const onLoginById = async id => {
         try {
-            const user = await userService.getById(id)
-            dispatch({ type: 'SET_USER', payload: user })
+            dispatch(loginUserById(id))
         }
         catch (_err) {
             console.log(_err)
         }
     }
 
+    const onLogout = () => dispatch({ type: 'SET_USER', user: {} })
+
+
 
     // CMP render
     return (
         <div>
-            {loggedUser._id && <span>Logged: {loggedUser.name.display} |</span>}
+            {<span>Logged in as: {loggedUser.name ? loggedUser.name.display : 'null'} |</span>}
 
             {userDB.map(user => (
-                <span key={user._id} onClick={() => onLogUser(user._id)}> {user.name.display} </span>))}
+                <span key={user._id} onClick={() => onLoginById(user._id)}> {user.name.display} </span>))}
+
+            {loggedUser._id && <span onClick={onLogout}>(Logout)</span>}
         </div>
     )
 }

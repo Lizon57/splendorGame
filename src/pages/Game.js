@@ -8,13 +8,12 @@ import { UserLog } from '../cmps/dev-logics/user/UserLog'
 import { CoinLst as StackCoinLst } from '../cmps/game/coins/stack/CoinLst'
 import { CardLst } from '../cmps/game/cards/CardLst'
 import { CoinLst as PlayerCoinLst } from '../cmps/game/coins/player/CoinLst'
-import { SkipTrn } from '../cmps/dev-logics/SkipTrn'
+import { SkipTurn } from '../cmps/dev-logics/SkipTurn'
 
 
 export const Game = () => {
     // CMP data
     const [loadingState, setLoadingState] = useState({ isLoading: true, err: '' })
-
     const { id } = useParams()
     const dispatch = useDispatch()
 
@@ -33,7 +32,7 @@ export const Game = () => {
             setLoadingState({ isLoading: false, err })
         }
     }
-    useEffect(getGame, [])
+    useEffect(() => getGame(), [])
     useEffect(() => () => dispatch({ type: 'SET_GAME', payload: {} }), [])
 
 
@@ -58,7 +57,7 @@ export const Game = () => {
             <PlayerCoinLst />
 
             <b>Skip trn</b>:
-            <SkipTrn />
+            <SkipTurn />
         </>
     )
 }

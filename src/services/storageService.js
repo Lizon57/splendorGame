@@ -1,5 +1,6 @@
 import { utilService } from './utilService'
 
+
 function query(entityType) {
     const entities = JSON.parse(localStorage.getItem(entityType))
     if (entities.length > 0) return Promise.resolve(entities)

@@ -1,5 +1,6 @@
 import { utilService } from '../../services/utilService'
 
+
 export const firstLevelDevCards = [
     {
         id: utilService.makeId(),

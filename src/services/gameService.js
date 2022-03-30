@@ -4,7 +4,8 @@ import { dummyGameDB } from '../data/dummyGameDB'
 
 
 async function getById(id) {
-    const [game] = dummyGameDB.filter(game => game._id === id)
+    const game = dummyGameDB.find(game => game._id === id)
+    if (!game) throw 'Game not found'
 
     // For debugging: 
     // Resolve after delay
@@ -21,58 +22,78 @@ async function getById(id) {
 
 
 function isPlayerAbleBuyCard(cost, playerCoin) {
-    const playerCoinConcated = utilService.concatTwoNumObj(playerCoin.fluid.gem, playerCoin.fixed)
     let goldNeeded = 0
-
     Object.keys(cost).forEach(gemCost => {
-        if (playerCoinConcated[gemCost] < cost[gemCost]) goldNeeded += -(playerCoinConcated[gemCost] - cost[gemCost])
+        const costDiff = playerCoin.gem[gemCost] - cost[gemCost]
+        if (costDiff < 0) goldNeeded -= costDiff
     })
 
-    if ((!goldNeeded) || (playerCoin.fluid.gold > goldNeeded)) return true
+    if (!goldNeeded || playerCoin.gold > goldNeeded) return true
     return false
 }
 
 
-function getNextActivePlayerIdx(players, playerTrnIdx) {
+function getNextActivePlayerIdx(players, currPlayerTurnIdx) {
     let nextActivePlayerIdx = -1
 
-    if (playerTrnIdx === 0) {
-        const slicedPlayers = players.slice(1)
-        nextActivePlayerIdx = slicedPlayers.findIndex(player => player.isActive === true) + 1
-    }
+    switch (currPlayerTurnIdx) {
+        case 0:
+            nextActivePlayerIdx = players.findIndex((player, idx) => idx !== 0 && player.isActive)
+            break
 
-    else if (playerTrnIdx === 1) {
-        const slicedPlayers = players.slice(2)
-        nextActivePlayerIdx = slicedPlayers.findIndex(player => player.isActive === true) + 2
-        console.log(nextActivePlayerIdx)
+        case 1:
+            nextActivePlayerIdx = players.findIndex((player, idx) => idx > 1 && player.isActive)
+            if ((nextActivePlayerIdx === -1) && players[0].isActive) nextActivePlayerIdx = 0
+            break
 
-        if (nextActivePlayerIdx === -1 && players[0].isActive) nextActivePlayerIdx = 0
-    }
+        case 2:
+            if (players[3].isActive) nextActivePlayerIdx = 3
+            else if (players[0].isActive) nextActivePlayerIdx = 0
+            else if (players[1].isActive) nextActivePlayerIdx = 1
+            break
 
-    else if (playerTrnIdx === 2) {
-        if (players[3]?.isActive) nextActivePlayerIdx = 3
-        else {
-            const slicedPlayers = players.slice(0, 1)
-            nextActivePlayerIdx = slicedPlayers.findIndex(player => player.isActive === true)
-        }
-    }
+        case 3:
+            nextActivePlayerIdx = players.findIndex((player, idx) => idx < 3 && player.isActive)
+            break
 
-    else {
-        const slicedPlayers = players.slice(0, 3)
-        nextActivePlayerIdx = slicedPlayers.findIndex(player => player.isActive === true)
+        default: return
     }
 
     return nextActivePlayerIdx
 }
 
 
-function getCardsStackAfterBuy(cards, boughtCard) {
-    const newStack = JSON.parse(JSON.stringify(cards))
-    const drawnCardIdx = utilService.getRandomInt(0, newStack.cardsStack.length)
-    const boughtCardIdx = newStack.shownCards.findIndex(card => card.id === boughtCard.id)
-    const drawnCard = newStack.cardsStack.splice(drawnCardIdx, 1)[0]
-    newStack.shownCards[boughtCardIdx] = drawnCard
-    return newStack
+function getCoinStatAfterPay(coin, cost) {
+    Object.keys(cost).forEach(gemCost => {
+        const neededFluid = (coin.fixed[gemCost] - cost[gemCost]) * -1
+        if (neededFluid <= 0) return
+
+        const goldNeeded = (coin.fluid.gem[gemCost] - neededFluid) * -1
+        if (goldNeeded > 0) {
+            coin.total.gold -= goldNeeded
+            coin.fluid.gold -= goldNeeded
+            coin.total.gem[gemCost] = coin.fixed[gemCost]
+            coin.fluid.gem[gemCost] = 0
+            return
+        }
+
+        coin.total.gem[gemCost] -= neededFluid
+        coin.fluid.gem[gemCost] -= neededFluid
+    })
+
+    return coin
+}
+
+
+function getCardsStackAfterBuy(cardState, boughtCard) {
+    cardState = JSON.parse(JSON.stringify(cardState))
+
+    const drawnCardIdx = utilService.getRandomInt(0, cardState.cardsStack.length)
+    const boughtCardIdx = cardState.shownCards.findIndex(card => card.id === boughtCard.id)
+    const drawnCard = cardState.cardsStack.splice(drawnCardIdx, 1)[0]
+    cardState.shownCards[boughtCardIdx] = drawnCard
+
+    return cardState
 }
 
 
@@ -81,5 +102,6 @@ export const gameService = {
     getById,
     isPlayerAbleBuyCard,
     getNextActivePlayerIdx,
-    getCardsStackAfterBuy
+    getCardsStackAfterBuy,
+    getCoinStatAfterPay
 }

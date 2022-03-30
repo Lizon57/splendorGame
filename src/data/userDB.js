@@ -11,6 +11,7 @@ export const userDB = [
 
         point: 100
     },
+
     {
         _id: 'userI0002',
 
@@ -22,5 +23,31 @@ export const userDB = [
         },
 
         point: 120
+    },
+
+    {
+        _id: 'userI0003',
+
+        avatarUrl: 'https://robohash.org/Billie Pokus?set=set2',
+        name: {
+            first: 'Shimon',
+            last: 'Hayut',
+            display: 'Billie Pokus'
+        },
+
+        point: 110
+    },
+
+    {
+        _id: 'userI0004',
+
+        avatarUrl: 'https://robohash.org/Sala Mandra?set=set2',
+        name: {
+            first: 'Salomon',
+            last: 'The king',
+            display: 'Sala Mandra'
+        },
+
+        point: 150
     },
 ]

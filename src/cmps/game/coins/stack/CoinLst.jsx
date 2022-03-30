@@ -1,5 +1,7 @@
 import { useState } from 'react'
+
 import { useDispatch, useSelector } from 'react-redux'
+import { coinPick } from '../../../../store/actions/game'
 
 import { CoinPreview } from './CoinPreview'
 
@@ -35,22 +37,24 @@ export const CoinLst = () => {
     // Check if player can pick or return coin
     const isAblePicking = coin => {
         if (coin === 'gold') {
-            // Avoid picking gold if:
+            // Prevent picking gold if:
             // - Not player turn
-            // - Player finished his coin pick for this turn
             // - There is no gold on stack
+            // - Player finished his coin pick for this turn
+            // - Player already picked a coin
             // - Player already picked a gem
             if ((game.players[game.turn.playerIdx].miniUser.userId !== user._id) ||
                 (game.turn.phase !== 0) ||
+                (!stack.gold) ||
                 (pickedCoin.gold) ||
                 (totalPickedGemAmount > 0))
                 return false
         } else {
-            // Avoid picking gem if:
+            // Prevent picking gem if:
             // - Not player turn
             // - Player finished his coin pick for this turn
             // - Player already picked gold
-            // - Player pick out of stack gem
+            // - Gem is out of stack
             // - Player picked already two gem of wanted gem
             // - Player pick two different gems and try picking second of one of them
             // - Player pick second same gem when there are less then 3 available
@@ -89,7 +93,8 @@ export const CoinLst = () => {
 
     // On invoke pick
     const onInvokePick = () => {
-        dispatch({ type: 'SET_COIN_PICK', payload: { stack, pickedCoin } })
+        dispatch(coinPick(game.players[game.turn.playerIdx], game.turn.playerIdx, pickedCoin))
+        // dispatch({ type: 'SET_COIN_PICK', payload: { stack, pickedCoin } })
         setPickedCoin({ gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 })
     }
 

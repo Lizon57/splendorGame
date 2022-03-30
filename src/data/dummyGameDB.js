@@ -1,6 +1,7 @@
 import { utilService } from '../services/utilService'
 
 import { firstLevelDevCards } from './card/firstLevelDevCards'
+import { nobleCards } from './card/nobleCards'
 import { secondLevelDevCards } from './card/secondLevelDevCards'
 import { thirdLevelDevCards } from './card/thirdLevelDevCards'
 
@@ -12,7 +13,7 @@ export const dummyGameDB = [
 
         turn: {
             playerIdx: 0,
-            phase: 0,
+            phase: 1,
         },
 
 
@@ -112,6 +113,8 @@ export const dummyGameDB = [
             }
         },
 
+        nobles: nobleCards.slice(0, 3),
+
 
         players: [
             {
@@ -125,11 +128,13 @@ export const dummyGameDB = [
                 point: 0,
 
                 coin: {
-                    fluid: { gem: { emerald: 0, sapphire: 3, ruby: 1, diamond: 2, onyx: 0 }, gold: 2 },
-                    fixed: { emerald: 0, sapphire: 1, ruby: 1, diamond: 0, onyx: 2 },
-                    total: { gem: { emerald: 0, sapphire: 4, ruby: 2, diamond: 2, onyx: 2 }, gold: 2 }
+                    fluid: { gem: { emerald: 0, sapphire: 3, ruby: 2, diamond: 2, onyx: 0 }, gold: 2 },
+                    fixed: { emerald: 3, sapphire: 1, ruby: 3, diamond: 0, onyx: 2 },
+                    total: { gem: { emerald: 3, sapphire: 4, ruby: 5, diamond: 2, onyx: 2 }, gold: 2 }
                 },
-                ownCards: []
+
+                ownCards: [],
+                ownNobles: []
             },
 
             {
@@ -147,7 +152,9 @@ export const dummyGameDB = [
                     fixed: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 },
                     total: { gem: { emerald: 0, sapphire: 0, ruby: 0, diamond: 0, onyx: 0 }, gold: 0 }
                 },
-                ownCards: []
+
+                ownCards: [],
+                ownNobles: []
             }
         ]
     }

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 
 import { gameService } from '../../../services/gameService'
-import { buyingCard } from '../../../store/actions/game'
+import { buyingCard, gainNoble, setTurnPlayerIdx } from '../../../store/actions/game'
 
 import { CardPreview } from './CardPreview'
 
@@ -33,6 +33,14 @@ export const CardPackage = ({ level }) => {
     const onBuyingCard = (card, level) => {
         card.level = level
         dispatch(buyingCard(game.players, game.turn.playerIdx, card, game.card[level]))
+
+        const player = game.players[game.turn.playerIdx]
+        // if (player.ownCards > 7) {
+            const gainNobles = gameService.checkPlayerGainNoble(player, game.nobles)
+            gainNobles.forEach(noble => dispatch(gainNoble(noble, player, game.nobles)))
+        // }
+
+        dispatch(setTurnPlayerIdx(game.players, game.turn.playerIdx))
     }
 
 

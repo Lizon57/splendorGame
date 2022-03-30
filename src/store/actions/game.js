@@ -23,9 +23,6 @@ export const buyingCard = (players, currPlayerIdx, card, levelCardState) => {
         players = players.slice()
         const player = JSON.parse(JSON.stringify(players[currPlayerIdx]))
 
-        // Update next player turn
-        dispatch(setTurnPlayerIdx(players, currPlayerIdx))
-
         // Add card to player ownCards
         player.ownCards.push(card)
 
@@ -62,5 +59,17 @@ export const coinPick = (player, currPlayerIdx, coinPick) => {
         }
 
         dispatch(updatePlayer(player, currPlayerIdx))
+    }
+}
+
+
+export const gainNoble = (noble, player, noblesStack) => {
+    return dispatch => {
+        player.ownNobles.push(noble)
+        player.point += 3
+        dispatch({ type: 'PLAYER_GAIN_NOBLE', player })
+
+        noblesStack = noblesStack.filter(nobleCard => nobleCard.id !== noble.id)
+        dispatch({ type: 'SET_NOBLES', nobles: noblesStack })
     }
 }

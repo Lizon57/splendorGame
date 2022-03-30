@@ -97,11 +97,30 @@ function getCardsStackAfterBuy(cardState, boughtCard) {
 }
 
 
+function checkPlayerGainNoble(player, nobles) {
+    const gainNobles = []
+
+    nobles.forEach(noble => {
+        let isGainNoble = true
+
+        Object.keys(noble.cost).forEach(gemCost => {
+            if (!isGainNoble) return
+            if (player.coin.fixed[gemCost] < noble.cost[gemCost]) isGainNoble = false
+        })
+
+        if (isGainNoble) gainNobles.push(noble)
+    })
+
+    return gainNobles
+}
+
+
 
 export const gameService = {
     getById,
     isPlayerAbleBuyCard,
     getNextActivePlayerIdx,
     getCardsStackAfterBuy,
-    getCoinStatAfterPay
+    getCoinStatAfterPay,
+    checkPlayerGainNoble
 }

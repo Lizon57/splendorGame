@@ -54,6 +54,13 @@ export function game(state = initialState, action) {
             return { ...state, ...newGame }
 
 
+        case 'SKIP_TURN':
+            newGame.turn.phase = 0
+            const x = gameService.getNextActivePlayerIdx(newGame.players, state.game.turn.playerIdx)
+            console.log(x)
+            if (x !== -1) newGame.turn.playerIdx = x
+
+
         default: return state
     }
 }

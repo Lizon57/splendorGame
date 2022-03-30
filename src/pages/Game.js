@@ -8,6 +8,7 @@ import { UserLog } from '../cmps/dev-logics/user/UserLog'
 import { CoinLst as StackCoinLst } from '../cmps/game/coins/stack/CoinLst'
 import { CardLst } from '../cmps/game/cards/CardLst'
 import { CoinLst as PlayerCoinLst } from '../cmps/game/coins/player/CoinLst'
+import { SkipTrn } from '../cmps/dev-logics/SkipTrn'
 
 
 export const Game = () => {
@@ -55,6 +56,9 @@ export const Game = () => {
 
             <b>User coins</b>:
             <PlayerCoinLst />
+
+            <b>Skip trn</b>:
+            <SkipTrn />
         </>
     )
 }

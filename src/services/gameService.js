@@ -44,6 +44,7 @@ function getNextActivePlayerIdx(players, playerTrnIdx) {
     else if (playerTrnIdx === 1) {
         const slicedPlayers = players.slice(2)
         nextActivePlayerIdx = slicedPlayers.findIndex(player => player.isActive === true) + 2
+        console.log(nextActivePlayerIdx)
 
         if (nextActivePlayerIdx === -1 && players[0].isActive) nextActivePlayerIdx = 0
     }

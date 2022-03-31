@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 backend/logs
+backend/node_modules
 todo.txt
 
 # testing

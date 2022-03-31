@@ -10,16 +10,15 @@ export const dummyGameDB = [
     {
         _id: 'gameI0001',
 
-
-        turn: {
-            playerIdx: 0,
-            phase: 0,
+        process: {
+            isAwaitOccupancy: false,
+            currTurnPlayerIdx: 0
         },
 
 
         coinStack: {
             gem: { emerald: 4, sapphire: 4, ruby: 4, diamond: 4, onyx: 4 },
-            gold: 2,
+            gold: 3,
         },
 
 

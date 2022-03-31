@@ -33,10 +33,10 @@ function isPlayerAbleBuyCard(cost, playerCoin) {
 }
 
 
-function getNextActivePlayerIdx(players, currPlayerTurnIdx) {
+function getNextActivePlayerIdx(players, currTurnPlayerIdx) {
     let nextActivePlayerIdx = -1
 
-    switch (currPlayerTurnIdx) {
+    switch (currTurnPlayerIdx) {
         case 0:
             nextActivePlayerIdx = players.findIndex((player, idx) => idx !== 0 && player.isActive)
             break

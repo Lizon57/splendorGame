@@ -11,11 +11,11 @@ export const CoinLst = () => {
 
 
     // Conditional render - if player not logged in or not found on game data - return
-    const currPlayerIdx = players.findIndex(player => player.miniUser.userId === user._id)
-    if (currPlayerIdx === -1) return <></>
+    const currTurnPlayerIdx = players.findIndex(player => player.miniUser.userId === user._id)
+    if (currTurnPlayerIdx === -1) return <></>
 
 
-    const { coin } = players[currPlayerIdx]
+    const { coin } = players[currTurnPlayerIdx]
 
     // CMP render
     return (

@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
 
 import { gameService } from '../../../../services/gameService'
-import { buyingCard, gainNoble, savingCard, setTurnPlayerIdx } from '../../../../store/actions/game'
+import { buyingCard, gainGold, gainNoble, savingCard, setNextPlayerTurn } from '../../../../store/actions/game'
 
 import { CardPreview } from './CardPreview'
 
 
 export const CardPackage = ({ level }) => {
     // CMP data
-    const { game } = useSelector(state => state.gameModule)
+    const { game, game: { coinStack, players, process: { currTurnPlayerIdx } } } = useSelector(state => state.gameModule)
     const { user } = useSelector(state => state.userModule)
     const dispatch = useDispatch()
 
@@ -17,12 +17,10 @@ export const CardPackage = ({ level }) => {
     const isAbleBuy = cost => {
         // Prevent showing buy card button if:
         // - It's not player turn (For secure)
-        // - It's not buying card phase on turn
         // - Player don't have enough coin to buy it
-        const { coin } = game.players[game.turn.playerIdx]
+        const { coin } = players[currTurnPlayerIdx]
 
-        if ((game.players[game.turn.playerIdx].miniUser.userId !== user._id) ||
-            (!game.turn.phase || game.turn.phase === 3) ||
+        if ((players[currTurnPlayerIdx].miniUser.userId !== user._id) ||
             !gameService.isPlayerAbleBuyCard(cost, coin.total)
         ) return false
 
@@ -33,31 +31,28 @@ export const CardPackage = ({ level }) => {
     // Handle buying card - change data, check if player gain noble(s) and set next player turn
     const onBuyingCard = (card, level) => {
         card.level = level
-        dispatch(buyingCard(game.players, game.turn.playerIdx, card, game.card[level]))
+        dispatch(buyingCard(players, currTurnPlayerIdx, card, game.card[level]))
 
-        const player = game.players[game.turn.playerIdx]
+        const player = players[currTurnPlayerIdx]
         if (player.ownCards > 7) {
             const gainNobles = gameService.checkPlayerGainNoble(player, game.nobles)
             gainNobles.forEach(noble => dispatch(gainNoble(noble, player, game.nobles)))
         }
 
-        dispatch(setTurnPlayerIdx(game.players, game.turn.playerIdx))
+        dispatch(setNextPlayerTurn(players, currTurnPlayerIdx))
     }
 
 
     const isAbleSaveCard = () => {
-        if (
-            (game.turn.phase !== 1) &&
-            (game.players[game.turn.playerIdx].savedCards.length < 3)
-        ) return true
-
-        return false
+        // Prevent showing save card button if player has already 3 saved cards
+        return (players[currTurnPlayerIdx].savedCards.length < 3) ? true : false
     }
 
 
     const onSavingCard = (card, level) => {
         card.level = level
-        dispatch(savingCard(game.players, game.turn.playerIdx, card, game.card[level]))
+        dispatch(savingCard(players, currTurnPlayerIdx, card, game.card[level]))
+        dispatch(gainGold(players[currTurnPlayerIdx], currTurnPlayerIdx, coinStack))
     }
 
 

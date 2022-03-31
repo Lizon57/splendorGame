@@ -10,7 +10,7 @@ import { NobleLst as StackNobleLst } from '../cmps/game/nobles/stack/NobleLst'
 import { CardLst as StackCardLst } from '../cmps/game/cards/stack/CardLst'
 import { CoinLst as PlayerCoinLst } from '../cmps/game/coins/player/CoinLst'
 import { NobleLst as PlayerNobleLst } from '../cmps/game/nobles/player/NobleLst'
-import { CardLst as PlayerCardLst } from '../cmps/game/cards/player/CardLst'
+import { SavedCardLst  } from '../cmps/game/cards/player/SavedCardLst'
 import { SkipTurn } from '../cmps/dev-logics/SkipTurn'
 
 
@@ -66,7 +66,7 @@ export const Game = () => {
             <PlayerNobleLst />
 
             <b>Player saved cards</b>:
-            <PlayerCardLst />
+            <SavedCardLst />
 
             <b>Skip trn</b>:
             <SkipTurn />

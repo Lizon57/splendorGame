@@ -1,31 +1,26 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { buyingCard } from '../../../../store/actions/game'
 
 import { gameService } from '../../../../services/gameService'
 
 import { CardPreview } from './CardPreview'
 
 
-export const CardLst = () => {
+export const SavedCardLst = () => {
     // CMP data
-    const { game, game: { players } } = useSelector(state => state.gameModule)
+    const { game, game: { players, process: { currTurnPlayerIdx } } } = useSelector(state => state.gameModule)
     const { user } = useSelector(state => state.userModule)
-
-
-    // Conditional render - if player not logged in or not found on game data - return
-    const currPlayerIdx = players.findIndex(player => player.miniUser.userId === user._id)
-    if (currPlayerIdx === -1) return <></>
+    const dispatch = useDispatch()
 
 
     // CMP functions
     const isAbleBuy = cost => {
         // Prevent showing buy card button if:
         // - It's not player turn (For secure)
-        // - It's not buying card phase on turn
         // - Player don't have enough coin to buy it
-        const { coin } = game.players[game.turn.playerIdx]
+        const { coin } = game.players[currTurnPlayerIdx]
 
-        if ((game.players[game.turn.playerIdx].miniUser.userId !== user._id) ||
-            (game.turn.phase === 1) ||
+        if ((game.players[currTurnPlayerIdx].miniUser.userId !== user._id) ||
             !gameService.isPlayerAbleBuyCard(cost, coin.total)
         ) return false
 
@@ -33,15 +28,13 @@ export const CardLst = () => {
     }
 
 
-    const onBuyingCard = card => {
-        console.log(card)
-    }
+    const onBuyingCard = card => dispatch(buyingCard(players, currTurnPlayerIdx, card))
 
 
     // CMP render
     return (
         <div style={{ display: 'flex', gap: '1rem' }}>
-            {players[game.turn.playerIdx].savedCards.map(card => <CardPreview
+            {players[currTurnPlayerIdx].savedCards.map(card => <CardPreview
                 key={card.id}
                 card={card}
                 isAbleBuy={isAbleBuy(card.cost)}

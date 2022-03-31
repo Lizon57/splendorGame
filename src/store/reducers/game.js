@@ -4,7 +4,7 @@ const initialState = {
 
 
 export function game(state = initialState, action) {
-    const newGame = { ...state.game }
+    const newGame = JSON.parse(JSON.stringify(state.game))
 
     switch (action.type) {
         case 'SET_GAME':
@@ -12,13 +12,12 @@ export function game(state = initialState, action) {
 
 
         case 'UPDATE_PLAYER':
-            newGame.players[action.idx] = action.player
+            newGame.players[action.playerIdx] = action.player
             return { ...state, game: newGame }
 
 
-        case 'SET_TURN_PLAYER_IDX':
-            newGame.turn.playerIdx = action.playerIdx
-            newGame.turn.phase = 0
+        case 'SET_NEXT_PLAYER_TURN':
+            newGame.process.currTurnPlayerIdx = action.playerIdx
             return { ...state, game: newGame }
 
 
@@ -35,8 +34,8 @@ export function game(state = initialState, action) {
             newGame.nobles = action.nobles
             return { ...state, game: newGame }
 
-        case 'SET_TURN_PHASE':
-            newGame.turn.phase = action.phase
+        case 'UPDATE_COIN_STACK':
+            newGame.coinStack = action.coinStack
             return { ...state, game: newGame }
 
 

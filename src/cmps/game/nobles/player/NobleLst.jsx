@@ -8,11 +8,11 @@ export const NobleLst = () => {
 
 
     // Conditional render - if player not logged in or not found on game data - return
-    const currPlayerIdx = players.findIndex(player => player.miniUser.userId === user._id)
-    if (currPlayerIdx === -1) return <></>
+    const currTurnPlayerIdx = players.findIndex(player => player.miniUser.userId === user._id)
+    if (currTurnPlayerIdx === -1) return <></>
 
 
-    const { ownNobles } = players[currPlayerIdx]
+    const { ownNobles } = players[currTurnPlayerIdx]
 
     return (
         <div style={{ display: 'flex', gap: '1rem' }}>

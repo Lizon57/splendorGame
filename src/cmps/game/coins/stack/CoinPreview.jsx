@@ -2,13 +2,15 @@ export const CoinPreview = ({ coin, onStack, pickedAmount, isAblePicking, isAble
     return (
         <div>
             <div>{coin}</div>
-
-            <div>
-                {onStack}<br />
-                {isAblePicking && <button onClick={() => onPickCoin(coin, true)}>+</button>}
-                {pickedAmount}
-                {isAbleReturn && <button onClick={() => onPickCoin(coin, false)}>-</button>}
-            </div>
+            {coin === 'gold'
+                ? <div>{onStack}</div>
+                : (<div>
+                    {onStack}<br />
+                    {isAblePicking && <button onClick={() => onPickCoin(coin, true)}>+</button>}
+                    {pickedAmount}
+                    {isAbleReturn && <button onClick={() => onPickCoin(coin, false)}>-</button>}
+                </div>)
+            }
         </div>
     )
 }

@@ -1,27 +1,22 @@
 import { gameService } from '../../services/gameService'
 
-export const setTurnPlayerIdx = (players, currPlayerIdx) => {
+export const setNextPlayerTurn = (players, currTurnPlayerIdx) => {
     return dispatch => {
-        const playerIdx = gameService.getNextActivePlayerIdx(players, currPlayerIdx)
-        dispatch({ type: 'SET_TURN_PLAYER_IDX', playerIdx })
+        const playerIdx = gameService.getNextActivePlayerIdx(players, currTurnPlayerIdx)
+        dispatch({ type: 'SET_NEXT_PLAYER_TURN', playerIdx })
     }
 }
 
 
-export const updatePlayer = (player, idx) => {
-    return dispatch => dispatch({ type: 'UPDATE_PLAYER', player, idx })
-}
+export const updatePlayer = (player, playerIdx) => dispatch => dispatch({ type: 'UPDATE_PLAYER', player, playerIdx })
 
 
-export const updateCard = (level, cardState) => {
-    return dispatch => dispatch({ type: 'UPDATE_CARD_STACK_BY_LEVEL', level, cardState })
-}
+export const updateCard = (level, cardState) => dispatch => dispatch({ type: 'UPDATE_CARD_STACK_BY_LEVEL', level, cardState })
 
 
-export const buyingCard = (players, currPlayerIdx, card, levelCardState) => {
+export const buyingCard = (players, currTurnPlayerIdx, card, levelCardState) => {
     return dispatch => {
-        players = players.slice()
-        const player = JSON.parse(JSON.stringify(players[currPlayerIdx]))
+        const player = JSON.parse(JSON.stringify(players[currTurnPlayerIdx]))
 
         // Add card to player ownCards
         player.ownCards.push(card)
@@ -35,32 +30,37 @@ export const buyingCard = (players, currPlayerIdx, card, levelCardState) => {
 
         // Add card's gem to fixed coin
         player.coin.fixed[card.gem] += 1
-        dispatch(updatePlayer(player, currPlayerIdx))
 
-        // Update cards
-        const newCardState = gameService.getCardsStackAfterBuy(levelCardState, card)
-        dispatch(updateCard(card.level, newCardState))
+        // Update cards (stack and saved)
+        if (levelCardState) {
+            const newCardState = gameService.getCardsStackAfterBuy(levelCardState, card)
+            dispatch(updateCard(card.level, newCardState))
+        } else {
+            player.savedCards = player.savedCards.filter(savedCard => savedCard.id !== card.id)
+        }
+
+        dispatch(updatePlayer(player, currTurnPlayerIdx))
+
+        // Set next player turn
+        dispatch(setNextPlayerTurn(players, currTurnPlayerIdx))
     }
 }
 
 
-export const coinPick = (player, currPlayerIdx, coinPick) => {
+export const gemPick = (players, currTurnPlayerIdx, pickedGem, coinStack) => {
+    const player = players[currTurnPlayerIdx]
+
     return dispatch => {
-        if (coinPick.gold) {
-            player.coin.fluid.gold++
-            player.coin.total.gold++
-            dispatch(setTurnPhase(3))
-        } else {
-            Object.keys(coinPick.gem).forEach(gem => {
-                if (!coinPick.gem[gem]) return
+        Object.keys(pickedGem).forEach(gem => {
+            if (!pickedGem[gem]) return
 
-                player.coin.fluid.gem[gem] += coinPick.gem[gem]
-                player.coin.total.gem[gem] += coinPick.gem[gem]
-            })
-            dispatch(setTurnPhase(1))
-        }
+            player.coin.fluid.gem[gem] += pickedGem[gem]
+            player.coin.total.gem[gem] += pickedGem[gem]
+        })
 
-        dispatch(updatePlayer(player, currPlayerIdx))
+        dispatch(updatePlayer(player, currTurnPlayerIdx))
+        dispatch(setNextPlayerTurn(players, currTurnPlayerIdx))
+        dispatch(updateCoinStack(coinStack))
     }
 }
 
@@ -77,13 +77,27 @@ export const gainNoble = (noble, player, noblesStack) => {
 }
 
 
-export const setTurnPhase = phase => dispatch => dispatch({ type: 'SET_TURN_PHASE', phase })
+export const gainGold = (player, currTurnPlayerIdx, coinStack) => {
+    return dispatch => {
+        if (!coinStack.gold) return
+
+        player.coin.fluid.gold++
+        player.coin.total.gold++
+        dispatch(updatePlayer(player, currTurnPlayerIdx))
+
+        coinStack.gold--
+        dispatch(updateCoinStack(coinStack))
+    }
+}
 
 
-export const savingCard = (players, currPlayerIdx, card, levelCardState) => {
+export const updateCoinStack = coinStack => dispatch => dispatch({ type: 'UPDATE_COIN_STACK', coinStack })
+
+
+export const savingCard = (players, currTurnPlayerIdx, card, levelCardState) => {
     return dispatch => {
         players = players.slice()
-        const player = JSON.parse(JSON.stringify(players[currPlayerIdx]))
+        const player = JSON.parse(JSON.stringify(players[currTurnPlayerIdx]))
 
         // Update cards
         const newCardState = gameService.getCardsStackAfterBuy(levelCardState, card)
@@ -91,9 +105,9 @@ export const savingCard = (players, currPlayerIdx, card, levelCardState) => {
 
         // Add card to player saved cards
         player.savedCards.push(card)
-        dispatch(updatePlayer(player, currPlayerIdx))
+        dispatch(updatePlayer(player, currTurnPlayerIdx))
 
         // Set next player turn
-        dispatch(setTurnPlayerIdx(players, currPlayerIdx))
+        dispatch(setNextPlayerTurn(players, currTurnPlayerIdx))
     }
 }

@@ -1,0 +1,19 @@
+Features: 
+
+Rules:
+    - Prevent player end turn with more then 10 coins (if so - return some)
+    - Only one noble can gain every single turn
+    - Youngest player starts
+
+
+Game finish conditions:
+    - Game over (only one player is active / has time left)
+    - Game win (reached needed points)
+    - Tie
+    - Complete round when finished
+
+Game:
+ - Add conditional render - if player not logged in or not found on game data - return
+
+
+Add readme.md

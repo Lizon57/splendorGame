@@ -77,4 +77,23 @@ export const gainNoble = (noble, player, noblesStack) => {
 }
 
 
-export const setTurnPhase = (phase) => dispatch => dispatch({ type: 'SET_TURN_PHASE', phase })
+export const setTurnPhase = phase => dispatch => dispatch({ type: 'SET_TURN_PHASE', phase })
+
+
+export const savingCard = (players, currPlayerIdx, card, levelCardState) => {
+    return dispatch => {
+        players = players.slice()
+        const player = JSON.parse(JSON.stringify(players[currPlayerIdx]))
+
+        // Update cards
+        const newCardState = gameService.getCardsStackAfterBuy(levelCardState, card)
+        dispatch(updateCard(card.level, newCardState))
+
+        // Add card to player saved cards
+        player.savedCards.push(card)
+        dispatch(updatePlayer(player, currPlayerIdx))
+
+        // Set next player turn
+        dispatch(setTurnPlayerIdx(players, currPlayerIdx))
+    }
+}

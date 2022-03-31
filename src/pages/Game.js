@@ -7,9 +7,10 @@ import { gameService } from '../services/gameService'
 import { UserLog } from '../cmps/dev-logics/user/UserLog'
 import { CoinLst as StackCoinLst } from '../cmps/game/coins/stack/CoinLst'
 import { NobleLst as StackNobleLst } from '../cmps/game/nobles/stack/NobleLst'
-import { CardLst } from '../cmps/game/cards/CardLst'
+import { CardLst as StackCardLst } from '../cmps/game/cards/stack/CardLst'
 import { CoinLst as PlayerCoinLst } from '../cmps/game/coins/player/CoinLst'
 import { NobleLst as PlayerNobleLst } from '../cmps/game/nobles/player/NobleLst'
+import { CardLst as PlayerCardLst } from '../cmps/game/cards/player/CardLst'
 import { SkipTurn } from '../cmps/dev-logics/SkipTurn'
 
 
@@ -56,13 +57,16 @@ export const Game = () => {
             <StackNobleLst />
 
             <b>Card stack</b>:
-            <CardLst />
+            <StackCardLst />
 
             <b>Player coins</b>:
             <PlayerCoinLst />
 
             <b>Player nobles</b>:
             <PlayerNobleLst />
+
+            <b>Player saved cards</b>:
+            <PlayerCardLst />
 
             <b>Skip trn</b>:
             <SkipTurn />

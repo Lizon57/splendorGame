@@ -134,6 +134,7 @@ export const dummyGameDB = [
                 },
 
                 ownCards: [],
+                savedCards: [],
                 ownNobles: []
             },
 
@@ -154,6 +155,7 @@ export const dummyGameDB = [
                 },
 
                 ownCards: [],
+                savedCards: [],
                 ownNobles: []
             }
         ]

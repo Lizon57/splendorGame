@@ -43,3 +43,5 @@ app.get('/**', (req, res) => {
 
 // Start listen
 http.listen(port, logger.info(`running on ${port}`))
+
+// Sanity Check

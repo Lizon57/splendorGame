@@ -1,14 +1,7 @@
-import { userService } from '../../services/userService'
+export const loginUser = user => {
+    return dispatch => dispatch({ type: 'SET_USER', user })
+}
 
-// Login user by id - for dev stage
-export const loginUserById = id => {
-    return async dispatch => {
-        try {
-            const user = await userService.getById(id)
-            dispatch({ type: 'SET_USER', user })
-        }
-        catch (_err) {
-            throw _err
-        }
-    }
+export const logoutUser = () => {
+    return dispatch => dispatch({ type: 'SET_USER', user: {} })
 }

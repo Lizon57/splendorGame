@@ -10,6 +10,7 @@ const http = require('http').createServer(app)
 
 const port = process.env.PORT || 3030
 
+
 // Init session configuration
 const session = expressSession({
     secret: 'Splendor online 2022',
@@ -36,6 +37,13 @@ else {
 }
 
 
+// Routes
+const authRoutes = require('./api/auth/auth.routes')
+
+app.use('/api/auth', authRoutes)
+
+
+
 app.get('/**', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
@@ -43,5 +51,3 @@ app.get('/**', (req, res) => {
 
 // Start listen
 http.listen(port, logger.info(`running on ${port}`))
-
-// Sanity Check

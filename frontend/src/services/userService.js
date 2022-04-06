@@ -1,9 +1,12 @@
 import { userDB } from '../data/userDB'
 
+import { httpService } from './httpService'
 import { storageService } from './storageService'
 
 
 const STORAGE_KEY = 'userDB'
+const STORAGE_KEY_LOGGEDIN = 'loggedUser'
+
 
 
 async function query(isFirstRun = true) {
@@ -43,8 +46,43 @@ function _createUserDB() {
 }
 
 
+async function login(credentials) {
+    try {
+        const user = await httpService.post(`/api/auth/login`, credentials)
+        sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(user))
+        return user
+    } catch (_err) {
+        console.log(_err)
+    }
+}
+
+
+async function signup(credentials) {
+    try {
+        const user = await httpService.post(`/api/auth/signup`, credentials)
+        sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(user))
+        return user
+    } catch (_err) {
+        console.log(_err)
+    }
+}
+
+async function logout() {
+    try {
+        await httpService.post(`/api/auth/logout`)
+        sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
+        return true
+    } catch (_err) {
+        console.log(_err)
+    }
+}
+
+
 
 export const userService = {
     query,
-    getById
+    getById,
+    login,
+    signup,
+    logout
 }

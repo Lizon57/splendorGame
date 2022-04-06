@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { buyingCard, gainGold, gainNoble, savingCard, setNextPlayerTurn } from '../../../../store/actions/game.action'
 
 import { gameService } from '../../../../services/gameService'
-import { buyingCard, gainGold, gainNoble, savingCard, setNextPlayerTurn } from '../../../../store/actions/game'
 
 import { CardPreview } from './CardPreview'
 

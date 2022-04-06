@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { buyingCard } from '../../../../store/actions/game'
+import { buyingCard } from '../../../../store/actions/game.action'
 
 import { gameService } from '../../../../services/gameService'
 

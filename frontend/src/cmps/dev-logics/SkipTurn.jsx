@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { setNextPlayerTurn } from '../../store/actions/game'
+import { setNextPlayerTurn } from '../../store/actions/game.action'
 
 
 export const SkipTurn = () => {

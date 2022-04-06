@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { gemPick } from '../../../../store/actions/game'
+import { gemPick } from '../../../../store/actions/game.action'
 
 import { CoinPreview } from './CoinPreview'
 

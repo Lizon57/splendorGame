@@ -1,9 +1,9 @@
 import GoogleLogin from 'react-google-login'
 
 import { useDispatch } from 'react-redux'
+import { loginUser } from '../../store/actions/user.action'
 
 import { userService } from '../../services/userService'
-import { loginUser } from '../../store/actions/user'
 
 
 export const AppHeader = () => {

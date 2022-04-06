@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { logoutUser } from '../../../store/actions/user'
+import { logoutUser } from '../../../store/actions/user.action'
 
 import { userService } from '../../../services/userService'
 
